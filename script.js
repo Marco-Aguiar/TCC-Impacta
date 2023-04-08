@@ -3,13 +3,25 @@ const listaProjetos = document.querySelector('#lista-projetos');
 
 let projetos = [];
 
+const progresso = document.querySelector('#customRange1');
+progresso.addEventListener('click', () => {
+  var valor = document.querySelector("#customRange1").value + "%"
+  console.log(valor)
+  const p = document.querySelector("#valor");
+  p.textContent = valor;
+  document.getElementById("valor").style.display = "block"; document.getElementById("valor").style.color = "green";
+  document.getElementById("valor").style.fontSize = "20px"; document.getElementById("valor").style.fontWeight = "700";
+  });
+
 function adicionarProjeto(event) {
   event.preventDefault();
+  document.getElementById("valor").style.display = "none";
 
   const projeto = {
     nome: form.nome.value,
     descricao: form.descricao.value,
-    data: form.data.value,
+    dataInicio: form.dataInicio.value,
+    dataFim: form.dataFim.value,
     progresso: form.progresso.value
   };
 
@@ -32,8 +44,11 @@ function exibirProjetos() {
     const pDescricao = document.createElement('p');
     pDescricao.textContent = projeto.descricao;
 
-    const pData = document.createElement('p');
-    pData.textContent = `Data de Início: ${projeto.data}`;
+    const pDataInicio = document.createElement('p');
+    pDataInicio.textContent = `Data de Início: ${projeto.dataInicio}`;
+
+    const pDataFim = document.createElement('p');
+    pDataFim.textContent = `Data Fim: ${projeto.dataFim}`;
 
     const progress = document.createElement('progress');
     progress.value = projeto.progresso;
@@ -41,6 +56,8 @@ function exibirProjetos() {
 
     const buttonEditar = document.createElement('button');
     buttonEditar.type = 'button';
+    buttonEditar.style.marginLeft = "2rem";
+    buttonEditar.style.borderRadius = "3px";
     buttonEditar.textContent = 'Editar';
     buttonEditar.addEventListener('click', () => {
       editarFormulario(index);
@@ -48,6 +65,8 @@ function exibirProjetos() {
 
     const buttonExcluir = document.createElement('button');
     buttonExcluir.type = 'button';
+    buttonExcluir.style.marginLeft = "2rem";
+    buttonExcluir.style.borderRadius = "3px";
     buttonExcluir.textContent = 'Excluir';
     buttonExcluir.addEventListener('click', () => {
       excluirProjeto(index);
@@ -55,7 +74,8 @@ function exibirProjetos() {
 
     li.appendChild(h3);
     li.appendChild(pDescricao);
-    li.appendChild(pData);
+    li.appendChild(pDataInicio);
+    li.appendChild(pDataFim);
     li.appendChild(progress);
     li.appendChild(buttonEditar);
     li.appendChild(buttonExcluir);
@@ -74,6 +94,8 @@ function editarFormulario(index) {
 
   const buttonSalvar = document.createElement('button');
   buttonSalvar.type = 'submit';
+  buttonSalvar.style.marginLeft = "2rem";
+  buttonSalvar.style.borderRadius = "3px";
   buttonSalvar.textContent = 'Salvar';
   buttonSalvar.addEventListener('click', (event) => {
     event.preventDefault();
@@ -82,6 +104,7 @@ function editarFormulario(index) {
     projeto.descricao = form.descricao.value;
     projeto.data = form.data.value;
     projeto.progresso = form.progresso.value;
+    console.log(form.progresso.value)
 
     exibirProjetos();
 
@@ -98,13 +121,6 @@ function excluirProjeto(index) {
 }
 
 form.addEventListener('submit', adicionarProjeto);
-
-const botaoLimparTodos = document.querySelector('.excluir');
-
-botaoLimparTodos.addEventListener('click', () => {
-  const listaProjetos = document.querySelector('#lista-projetos');
-  listaProjetos.innerHTML = '';
-});
 
 const botaoExcluir = document.querySelectorAll('.excluir');
 
@@ -131,11 +147,6 @@ botaoExcluir.forEach(botao => {
     // Remover projeto se o usuário confirmar
     btnConfirmar.addEventListener('click', () => {
       projeto.remove();
-      modal.remove();
-    });
-
-    // Fechar modal se o usuário cancelar
-    btnCancel.addEventListener('click', () => {
       modal.remove();
     });
   });
