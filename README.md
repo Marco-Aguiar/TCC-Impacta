@@ -1,3 +1,3 @@
 # TCC-Impacta
 Ideia de projeto TCC
-<img src="magik.png" alt="Minha Figura">
+<img src="../imgs/magik.png" alt="Minha Figura">
